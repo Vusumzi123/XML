@@ -7,19 +7,10 @@ function main(vars, can){
     return val;
   };
 
-  var unDo = function(){
-    var um = editor.getSession().getUndoManager();
-    um.undo()
-  }
-
-  var reDo = function(){
-    var um = editor.getSession().getUndoManager();
-    um.redo();
-  }
-
 
 
   var parseDraw = function(){
+
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(getXML(), "text/xml");
     var nodes = xmlDoc.getElementsByTagName('draws')[0].childNodes;
@@ -52,14 +43,25 @@ function main(vars, can){
     return code;
   };
 
+var down = function(){
+  //download("code.xml",editor.getValue());
+  //downloadCanvas(vars.canvas,"code.png");
+  downloadZip(editor.getValue(),vars.canvas);
+};
+
+var addRect = function() {
+    console.log("holi");
+    var code = editor.getValue()+"\n<rect\n\tx=\"100\"\n\ty=\"130\"\n\twidth=\"200\"\n\theight=\"130\"\n\tbackground-color=\"#009688\"/>";
+    editor.setValue(code);
+    console.log("holi");
+}
 
   var rn =   document.getElementsByName('run')[0];
   rn.addEventListener('click', parseDraw);
 
+  var run= document.getElementsByName('down')[0];
+  run.addEventListener('click', down);
 
   window.addEventListener("resize", parseDraw);
-
-  document.getElementsByName('undo')[0].addEventListener('cilck', unDo);
-  document.getElementsByName('redo')[0].addEventListener('cilck', reDo);
 
 }

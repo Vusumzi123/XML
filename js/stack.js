@@ -8,6 +8,5 @@ function stack(){
 
   window.addEventListener("resize", function(){resizeCanvas(vars);main(vars, can)});
 
-  setTimeout(function(){main(vars, can);},2000);
-
+  main(vars, can);
 };

@@ -16,8 +16,8 @@ this.scolorBuffer;
 this.fcolorBuffer;
 this.width=this.canvas.width;
 this.height=this.canvas.height;
-this.centerX=this.canvas.width/2;
-this.centerY=this.canvas.height/2;
+this.centerW=this.canvas.width/2;
+this.centerH=this.canvas.height/2;
 this.mouseX;
 this.mouseY;
 
