@@ -19,20 +19,20 @@ function main(vars, can){
     for (var i = 0; i < nodes.length; i++ ) {
 
       if(nodes[i].nodeName != "#text"){
-        commands += constructCode(
-          nodes[i].getAttribute('background-color'),
+        commands += constructCode(nodes[i]);
+          /*nodes[i].getAttribute('background-color'),
           nodes[i].nodeName,
           nodes[i].getAttribute('x'),
           nodes[i].getAttribute('y'),
           nodes[i].getAttribute('width'),
           nodes[i].getAttribute('height')
-        );
+        );*/
       }
     }
     eval(commands);
   };
 
-  var constructCode= function(color, name, posX, posY, width, height){
+  /*var constructCode= function(color, name, posX, posY, width, height){
     var code = "";
     if(color.charAt(0)!='#'){
       code = "can.fill("+color+");\n";
@@ -41,6 +41,26 @@ function main(vars, can){
     }
     code += "can."+name+"("+posX+","+posY+","+width+","+height+");";
     return code;
+  };*/
+
+  var constructCode = function(node){
+    var code = "";
+    var rect = function(){
+      if(node.getAttribute('background-color').charAt(0)!='#'){
+        code = "can.fill("+node.getAttribute('background-color')+");\n";
+      }else {
+        code += "can.fill(\""+node.getAttribute('background-color')+"\");\n";
+      }
+      code += "can.rect("
+        node.getAttribute('x'),
+        node.getAttribute('y'),
+        node.getAttribute('width'),
+        node.getAttribute('height')
+      ")\n"
+    };
+
+    eval(node.nodeName+"()");
+    eval(code+"\;");
   };
 
 var down = function(){
@@ -50,10 +70,8 @@ var down = function(){
 };
 
 var addRect = function() {
-    console.log("holi");
     var code = editor.getValue()+"\n<rect\n\tx=\"100\"\n\ty=\"130\"\n\twidth=\"200\"\n\theight=\"130\"\n\tbackground-color=\"#009688\"/>";
     editor.setValue(code);
-    console.log("holi");
 }
 
   var rn =   document.getElementsByName('run')[0];
@@ -63,5 +81,7 @@ var addRect = function() {
   run.addEventListener('click', down);
 
   window.addEventListener("resize", parseDraw);
+
+  //setTimeout(parseDraw, 2500);
 
 }
