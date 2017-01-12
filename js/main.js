@@ -29,6 +29,8 @@ function main(vars, can){
         );*/
       }
     }
+
+    console.log(commands);
     eval(commands);
   };
 
@@ -45,22 +47,59 @@ function main(vars, can){
 
   var constructCode = function(node){
     var code = "";
-    var rect = function(){
-      if(node.getAttribute('background-color').charAt(0)!='#'){
+    var rect = function()
+    {
+      if(node.getAttribute('background-color').charAt(0)!='#')
+      {
         code = "can.fill("+node.getAttribute('background-color')+");\n";
-      }else {
+      }else
+      {
         code += "can.fill(\""+node.getAttribute('background-color')+"\");\n";
       }
-      code += "can.rect("
-        node.getAttribute('x'),
-        node.getAttribute('y'),
-        node.getAttribute('width'),
-        node.getAttribute('height')
-      ")\n"
+      code += "can.rect("+
+        node.getAttribute('x')+","+
+        node.getAttribute('y')+","+
+        node.getAttribute('width')+","+
+        node.getAttribute('height')+
+      ")"
+    };
+    var ellipse = function()
+    {
+      if(node.getAttribute('background-color').charAt(0)!='#')
+      {
+        code = "can.fill("+node.getAttribute('background-color')+");\n";
+      }else
+      {
+        code += "can.fill(\""+node.getAttribute('background-color')+"\");\n";
+      }
+      code += "can.ellipse("+
+        node.getAttribute('x')+","+
+        node.getAttribute('y')+","+
+        node.getAttribute('width')+","+
+        node.getAttribute('height')+
+      ")"
+    };
+    var text = function()
+    {
+      var color = node.getAttribute('color');
+      if(color.charAt(0)!='#')
+      {
+        code = "can.fill("+color+");\n";
+      }else
+      {
+        code += "can.fill(\""+color+"\");\n";
+      }
+      code += "can.text("+
+        "\""+node.getAttribute('text')+"\""+","+
+        node.getAttribute('x')+","+
+        node.getAttribute('y')+","+
+        node.getAttribute('size')+
+      ")"
     };
 
-    eval(node.nodeName+"()");
-    eval(code+"\;");
+    console.log(node.nodeName+"();");
+    eval(node.nodeName+"();");
+    return code+"\;\n";
   };
 
 var down = function(){
@@ -77,11 +116,11 @@ var addRect = function() {
   var rn =   document.getElementsByName('run')[0];
   rn.addEventListener('click', parseDraw);
 
-  var run= document.getElementsByName('down')[0];
-  run.addEventListener('click', down);
+  var download = document.getElementsByName('down')[0];
+  download.addEventListener('click', down);
 
   window.addEventListener("resize", parseDraw);
 
-  //setTimeout(parseDraw, 2500);
+  setTimeout(parseDraw, 2500);
 
 }
